@@ -4,6 +4,7 @@ function getLista() {
     return Array.from(Array(100).keys()).map((valor) => {
         return {
             nombre: valor,
+            apellido: "apellido",
         }
     });
 }
