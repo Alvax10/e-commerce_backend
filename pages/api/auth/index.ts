@@ -13,15 +13,20 @@ let bodySchema = yup.object().shape({
 async function createAuth(req: NextApiRequest, res: NextApiResponse) {
     const { email, username, age } = req.body;
 
-    try {
-        const code = await sendCode(email, username, age);
-        res.send({
-            message: "Mail enviado",
-            code: code,
-        });
-
-    } catch (err) {
-        res.status(402).send({ messageError: err });
+    if (email && username && age) {
+        try {
+            const code = await sendCode(email, username, age);
+            res.send({
+                message: "Mail enviado",
+                code: code,
+            });
+    
+        } catch (err) {
+            res.status(402).send({ messageError: err });
+        }
+        
+    } else {
+        res.status(400).send({ messageError: "Falta algunos de los datos: email, username o age" });
     }
 }
 
