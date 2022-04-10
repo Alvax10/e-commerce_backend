@@ -15,7 +15,7 @@ async function getMe(req: NextApiRequest, res: NextApiResponse, token) {
 // Typing the body entrance
 let bodySchema = yup.object().shape({
     email: yup.string().required(),
-    edad: yup.number().required(),
+    age: yup.number().required(),
     username: yup.string().required(),
 });
 
