@@ -19,7 +19,7 @@ export function getOffsetAndLimitFromReq(req: NextApiRequest, maxLimit = 50, max
             return { limit, offset };
 
         } catch (err) {
-            console.error("Hubo un error en getOffsetAndLimit: ", err);
+            return { "Hubo un error en getOffsetAndLimit: ": err };
         }
     }
 }

@@ -3,12 +3,12 @@ import { createPreference } from "lib/mercadopago";
 import { getProductById } from "controllers/products";
 import { sendConfirmedEmail, sendProductBoughtEmail } from "lib/sendgrid";
 
-type createOrderRes = {
-    url: string,
-    orderId: string,
-}
+// type createOrderRes = {
+//     url: string,
+//     orderId: string,
+// }
 
-export async function createOrder(userId: string, productId: string, additionalInfo): Promise<createOrderRes> {
+export async function createOrder(userId: string, productId: string, additionalInfo) {
     
     try {
         // BUSCAMOS EL PRODUCTO EN ALGOLIA, QUE ESTÁ SYNC CON AIRTABLE
@@ -55,7 +55,7 @@ export async function createOrder(userId: string, productId: string, additionalI
         return { url: preference.init_point, orderId: order.id };
 
     } catch (err) {
-        throw "Falló el controler de crearOrder";
+        return "Falló el controler de crearOrder";
     }
 }
 
@@ -66,6 +66,6 @@ export async function getOrderById(orderId) {
         return order;
 
     } catch (err) {
-        throw "falló el controller del order en getOrderById" && err;
+        return { "falló el controller del order en getOrderById": err };
     }
 }

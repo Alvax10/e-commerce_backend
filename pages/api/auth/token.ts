@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse} from "next";
-import { generate } from "controllers/jwt";
 import { Auth } from "models/auth";
+import { generate } from "controllers/jwt";
+import { NextApiRequest, NextApiResponse} from "next";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     

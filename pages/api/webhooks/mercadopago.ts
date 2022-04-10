@@ -15,7 +15,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             await myOrder.pullData();
             myOrder.data.status = 'closed';
             await myOrder.pushData();
-
+            
         }
         res.send({ message: "Todo salió bien!" });
     }

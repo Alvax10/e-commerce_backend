@@ -34,7 +34,7 @@ export async function findOrCreateAuth(email: string, username: string, age: num
         }
 
     } catch (err) {
-        throw { "Este es el error de findOrCreateAuth: ": err };
+        throw err;
     }
 }
 
@@ -45,7 +45,7 @@ function randomBetween(min, max) {
 
 // BUSCA EL MAIL DEL USUARIO, GENERA UN CÓDIGO Y SE LO MANDA POR MAIL
 // ADEMÁS PONE UNA FECHA DE EXPIRACIÓN AL CÓDIGO
-export async function sendCode(email: string, username: string, edad: number) {
+export async function sendCode(email: string, username: string, edad: number): Promise<any> {
 
     try {
         const auth = await findOrCreateAuth(email, username, edad);
@@ -61,12 +61,12 @@ export async function sendCode(email: string, username: string, edad: number) {
 
     } catch (err) {
         console.error("Este es el error en sendCode: ", err);
-        return { "Este es el error en sendCode": err };
+        throw err;
     }
 }
 
 // ACTUALIZA TODO EL USUARIO Y EL MAIL DEL AUTH
-export async function updateUserAndAuth(userId: string, newUserData): Promise<User> {
+export async function updateUserAndAuth(userId: string, newUserData) {
 
     try {
         const userUpdated = await User.updateUser(userId, newUserData);
@@ -74,8 +74,8 @@ export async function updateUserAndAuth(userId: string, newUserData): Promise<Us
         return userUpdated;
 
     } catch (err) {
-        console.log({ "Ocurrió un error en el controller updateUser": err });
-        throw { "Ocurrió un error en el controller updateUser": err };
+        console.error({ "Ocurrió un error en el controller updateUser": err });
+        throw err;
     }
 }
 
@@ -103,6 +103,6 @@ export async function updateCertainUserData(userId: string, newCertainData): Pro
 
     } catch (err) {
         console.log({ "Error en el controller updateCertainUserData": err });
-        throw { "Error en el controller updateCertainUserData": err };
+        throw err;
     }
 }

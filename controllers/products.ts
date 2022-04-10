@@ -44,7 +44,7 @@ export async function addProductToCart(userId: string, productId: string) {
         return { productAdded };
         
     } catch (err) {
-        throw "Error en el controller products" && err;
+        return { "Error en el controller products": err };
     }
 
 }
@@ -57,7 +57,7 @@ export async function deleteProductFromCart(userId: string, productId: string) {
         return productDeleted;
         
     } catch (err) {
-        throw "Error en el controller products" && err;
+        return { "Error en el controller products": err} ;
     }
 }
 
@@ -67,7 +67,7 @@ export async function getUserCart(userId: string) {
         return { cart };
 
     } catch (err) {
-        throw "Error en el getUserCart del controller" && err; 
+        return { "Error en el getUserCart del controller": err };
     }
 
 }

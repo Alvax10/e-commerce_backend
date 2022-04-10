@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import methods from "micro-method-router";
 import { getProductById } from "controllers/products";
 import { checkQuerySchema } from "middleWares/schema";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -10,20 +11,18 @@ let querySchema = yup.object().shape({
 
 async function searchProducts(req: NextApiRequest, res: NextApiResponse) {
 
-    if (req.method == "GET") {
+    try {
+        const producId = req.query as any;
+        const product = await getProductById(producId["productId"]);
+        res.send(product);
 
-        try {
-            const producId = req.query as any;
-            const product = await getProductById(producId["productId"]);
-            res.send(product);
-
-        } catch (err) {
-            res.status(500).send({ errorMessage: err });
-        }
-
-    } else {
-        res.status(500).send({ error: "This should be a GET method" });
+    } catch (err) {
+        res.status(500).send({ errorMessage: err });
     }
 }
 
-export default checkQuerySchema(querySchema, searchProducts);
+const handler = methods({
+    get: searchProducts
+});
+
+export default checkQuerySchema(querySchema, handler);

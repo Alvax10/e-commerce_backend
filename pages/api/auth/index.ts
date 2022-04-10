@@ -6,15 +6,15 @@ import { NextApiRequest, NextApiResponse} from "next";
 
 let bodySchema = yup.object().shape({
     email: yup.string().required(),
-    edad: yup.number().required(),
+    age: yup.number().required(),
     username: yup.string().required(),
 });
 
 async function createAuth(req: NextApiRequest, res: NextApiResponse) {
-    const { email, username, edad } = req.body;
+    const { email, username, age } = req.body;
 
     try {
-        const code = await sendCode(email, username, edad);
+        const code = await sendCode(email, username, age);
         res.send({
             message: "Mail enviado",
             code: code,

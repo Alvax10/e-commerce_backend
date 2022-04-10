@@ -66,10 +66,9 @@ export class Auth {
     static async findByEmailAndCode(email: string, code: number) {
         const cleanEmail = email.trim().toLocaleLowerCase();
         const result = await collection.where("email", "==", cleanEmail).where("code", "==", code).get();
-        console.log(collection);
 
         if (result.empty) {
-            throw "Codigo incorrecto";
+            throw "Codigo o email incorrecto";
 
         } else {
             const auth = new Auth(result.docs[0].id);

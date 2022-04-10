@@ -6,18 +6,18 @@ import { checkBodySchema } from "middleWares/schema";
 import { NextApiRequest, NextApiResponse} from "next";
 import { authMiddleware } from "middleWares/authMiddleWare";
 
-async function getMe(req: NextApiRequest, res: NextApiResponse, token) {
-    const user = new User(token.userId);
-    await user.pullData();
-    res.send(user.data);
-}
-
 // Typing the body entrance
 let bodySchema = yup.object().shape({
     email: yup.string().required(),
     age: yup.number().required(),
     username: yup.string().required(),
 });
+
+async function getMe(req: NextApiRequest, res: NextApiResponse, token) {
+    const user = new User(token.userId);
+    await user.pullData();
+    res.send(user.data);
+}
 
 async function patchMe(req: NextApiRequest, res: NextApiResponse, token) {
 
