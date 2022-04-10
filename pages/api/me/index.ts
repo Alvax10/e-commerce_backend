@@ -8,20 +8,15 @@ import { authMiddleware } from "middleWares/authMiddleWare";
 
 // Typing the body entrance
 let bodySchema = yup.object().shape({
-    email: yup.string().required(),
-    age: yup.number().required(),
-    username: yup.string().required(),
+    email: yup.string(),
+    age: yup.number(),
+    username: yup.string(),
 });
 
 async function getMe(req: NextApiRequest, res: NextApiResponse, token) {
-    if (req.method == "GET") {
-        const user = new User(token.userId);
-        await user.pullData();
-        res.send(user.data);
-
-    } else {
-        res.status(405).send({ error: "Only method get" });
-    }
+    const user = new User(token.userId);
+    await user.pullData();
+    res.send(user.data);
 }
 
 async function patchMe(req: NextApiRequest, res: NextApiResponse, token) {
@@ -37,6 +32,7 @@ async function patchMe(req: NextApiRequest, res: NextApiResponse, token) {
 }
 
 const handler = methods({
+    get: getMe,
     patch: patchMe,
 });
 
