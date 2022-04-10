@@ -61,7 +61,7 @@ export async function sendCode(email: string, username: string, edad: number) {
 
     } catch (err) {
         console.error("Este es el error en sendCode: ", err);
-        throw { "Este es el error en sendCode": err }
+        return { "Este es el error en sendCode": err };
     }
 }
 
@@ -74,6 +74,7 @@ export async function updateUserAndAuth(userId: string, newUserData): Promise<Us
         return userUpdated;
 
     } catch (err) {
+        console.log({ "Ocurrió un error en el controller updateUser": err });
         throw { "Ocurrió un error en el controller updateUser": err };
     }
 }
@@ -101,6 +102,7 @@ export async function updateCertainUserData(userId: string, newCertainData): Pro
         }
 
     } catch (err) {
+        console.log({ "Error en el controller updateCertainUserData": err });
         throw { "Error en el controller updateCertainUserData": err };
     }
 }
