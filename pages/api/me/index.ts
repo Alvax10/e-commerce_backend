@@ -14,13 +14,13 @@ let bodySchema = yup.object().shape({
 });
 
 async function getMe(req: NextApiRequest, res: NextApiResponse, token) {
-    try {
+    if (req.method == "GET" && token) {
         const user = new User(token.userId);
         await user.pullData();
         res.send(user.data);
 
-    } catch (err) {
-        res.status(500).send({ error: err });
+    } else {
+        res.status(500).send({ error: "Only method get Allowed" });
     }
 }
 
@@ -37,7 +37,6 @@ async function patchMe(req: NextApiRequest, res: NextApiResponse, token) {
 }
 
 const handler = methods({
-    get: getMe,
     patch: patchMe,
 });
 
