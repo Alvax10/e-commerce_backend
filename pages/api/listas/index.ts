@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 function getLista() {
-    return Array.from(Array(100).keys()).map((valor) => {
+    return Array.from(Array(1000).keys()).map((valor) => {
         return {
             nombre: valor,
-            apellido: "apellido",
+            apellido: "apellido" + valor,
         }
     });
 }
