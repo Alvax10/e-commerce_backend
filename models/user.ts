@@ -111,9 +111,9 @@ export class User {
         const user = await collection.doc(userId).get();
 
         if (user) {
-            const newUser = new User(user.id);
-            await newUser.pullData();
-            return newUser.data;
+            const myUser = new User(user.id);
+            myUser.data = user.data();
+            return myUser;
 
         } else {
             throw "El userId no existe";

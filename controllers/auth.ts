@@ -129,9 +129,9 @@ export async function checkEmailAndCode(email: string, code: number) {
 
 export async function getUserData(userId: string) {
     try {
-        const user = new User(userId);
-        await user.pullData();
-        return user.data;
+        const user = await User.findByUserId(userId);
+        // console.log("ESTE ES EL USER DESDE EL CONTROLLER AUTH: ", user);
+        return user;
 
     } catch (err) {
         throw { error: err };

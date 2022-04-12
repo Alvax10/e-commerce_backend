@@ -23,7 +23,7 @@ export class Order {
     async findUserEmail() {
         const userId = this.data.userId;
         const findUser = await User.findByUserId(userId);
-        return findUser.email;
+        return findUser.data.email;
     }
     
     static async createNewOrder(newOrderData = {}) {
@@ -38,8 +38,10 @@ export class Order {
         const order = await collection.doc(orderId).get();
 
         if (order) {
-            const newOrder = order.data();
-            return newOrder;
+            const myOrder = new Order(order.id);
+            await myOrder.pullData();
+            // console.log("MY ORDER DESDE MODEL: ", myOrder);
+            return myOrder;
 
         } else {
             throw "La orden no existe";

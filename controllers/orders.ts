@@ -1,20 +1,15 @@
 import { Order } from "models/order";
-import { getUserData } from "controllers/auth";
-import { getMerchantOrder } from "lib/mercadopago";
-import { createPreference } from "lib/mercadopago";
+import { getUserData } from "./auth";
 import { getProductById } from "controllers/products";
+import { createPreference, getMerchantOrder } from "lib/mercadopago";
 import { sendConfirmedEmail, sendProductBoughtEmail } from "lib/sendgrid";
-
-console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV == "development") {
     var notificationUrl = "https://webhook.site/2ae35616-7137-4024-aa9d-606613d77f95";
 
 } else if (process.env.NODE_ENV == "production") {
-    var notificationUrl = "https://dwf-m9-final-r5oyuf1bk-alvax10.vercel.app/api/webhooks/mercadopago";
+    var notificationUrl = "https://dwf-m9-final.vercel.app/api/webhooks/mercadopago";
 }
-
-console.log(notificationUrl);
 
 export async function createOrder(userId: string, productId: string, additionalInfo) {
     
@@ -52,7 +47,6 @@ export async function createOrder(userId: string, productId: string, additionalI
             "external_reference": order.id,
             "notification_url": notificationUrl,
         });
-        
         // RETORNAMOS LA URL PARA PAGAR EL PRODUCTO
         return { url: preference.init_point, orderId: order.id };
 
@@ -65,6 +59,7 @@ export async function getOrderById(orderId) {
 
     try {
         const order = await Order.findById(orderId);
+        // console.log("ORDER DESDE EL CONTROLLER GET ORDER BY ID: ", order);
         return order;
 
     } catch (err) {
@@ -79,17 +74,20 @@ export async function completePurchaseOrder(topic: string, id: string) {
         if (order.order_status == 'paid') {
 
             try {
-                const myOrder = await getOrderById(order.id);
-                const product = await getProductById(myOrder.data.productId);
+
+                const orderId = order.external_reference;
+                const newOrder = await Order.findById(orderId);
+
+                const product = await getProductById(newOrder.data.productId);
                 // BUSCAMOS EL EMAIL DEL USUARIO A TRAVÉS DEL USERID
-                const user = await getUserData(myOrder.userId);
+                const user = await getUserData(newOrder.data.userId);
 
                 // MANDAMOS LOS MAILS DE CONFIRMACIÓN DE LA COMPRA Y PRODUCTO COMPRADO
-                sendConfirmedEmail(user.email);
-                sendProductBoughtEmail(user.email, product);
-    
-                myOrder.data.status = 'closed';
-                await myOrder.pushData();
+                sendConfirmedEmail(user.data.email);
+                sendProductBoughtEmail(user.data.email, product);
+
+                newOrder.data.status = "closed";
+                await newOrder.pushData();
 
             } catch (err) {
                 throw { "falló el controllador order en getMerchantId: ": err };
