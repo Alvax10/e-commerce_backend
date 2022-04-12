@@ -11,7 +11,7 @@ if (process.env.NODE_ENV == "development") {
     var notificationUrl = "https://webhook.site/2ae35616-7137-4024-aa9d-606613d77f95";
 
 } else if (process.env.NODE_ENV == "production") {
-    var notificationUrl = "https://dwf-m9-pagos.vercel.app/api/webhooks/mercadopago";
+    var notificationUrl = "https://dwf-m9-final-r5oyuf1bk-alvax10.vercel.app/api/webhooks/mercadopago";
 }
 
 console.log(notificationUrl);
@@ -74,7 +74,7 @@ export async function getOrderById(orderId) {
 
 export async function completePurchaseOrder(topic: string, id: string) {
     if (topic == 'merchant_order') { 
-
+    
         const order = await getMerchantOrder(id);
         if (order.order_status == 'paid') {
 
