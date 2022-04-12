@@ -32,8 +32,6 @@ export async function createOrder(userId: string, productId: string, additionalI
             userId: userId,
             status: 'pending'
         });
-        // BUSCAMOS EL EMAIL DEL USUARIO A TRAVÉS DEL USERID
-        const email = await order.findUserEmail();
 
         // CREAMOS LA PREFERENCIA
         const preference = await createPreference({
@@ -83,11 +81,12 @@ export async function completePurchaseOrder(topic: string, id: string) {
             try {
                 const myOrder = await getOrderById(order.id);
                 const product = await getProductById(myOrder.data.productId);
-                const user = await getUserData(order.data.userId);
+                // BUSCAMOS EL EMAIL DEL USUARIO A TRAVÉS DEL USERID
+                const user = await getUserData(myOrder.userId);
 
                 // MANDAMOS LOS MAILS DE CONFIRMACIÓN DE LA COMPRA Y PRODUCTO COMPRADO
                 sendConfirmedEmail(user.email);
-                sendProductBoughtEmail(user.emaill, product);
+                sendProductBoughtEmail(user.email, product);
     
                 myOrder.data.status = 'closed';
                 await myOrder.pushData();
