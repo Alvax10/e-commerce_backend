@@ -1,21 +1,20 @@
-import { User } from "models/user";
 import methods from "micro-method-router";
+import { getUserData } from "controllers/auth";
 import { updateUserAndAuth } from "controllers/auth";
 import { NextApiRequest, NextApiResponse} from "next";
 import { authMiddleware } from "middleWares/authMiddleWare";
 
-async function getMe(req: NextApiRequest, res: NextApiResponse, token) {
+async function getHandler(req: NextApiRequest, res: NextApiResponse, token) {
     try {
-        const user = new User(token.userId);
-        await user.pullData();
-        res.send(user.data);
+        const response = await getUserData(token.userId);
+        res.send(response);
 
     } catch (err) {
-        res.status(500).send({ error: err });
+        res.status(405).send({ error: err });
     }
 }
 
-async function patchMe(req: NextApiRequest, res: NextApiResponse, token) {
+async function patchHandler(req: NextApiRequest, res: NextApiResponse, token) {
     
     const newUserData = req.body;
     if (newUserData.email && newUserData.age && newUserData.username) {
@@ -33,8 +32,8 @@ async function patchMe(req: NextApiRequest, res: NextApiResponse, token) {
 }
 
 const handler = methods({
-    get: getMe,
-    patch: patchMe,
+    get: getHandler,
+    patch: patchHandler,
 });
 
 export default authMiddleware(handler);

@@ -15,11 +15,8 @@ async function createAuth(req: NextApiRequest, res: NextApiResponse) {
 
     if (email && username && age) {
         try {
-            const code = await sendCode(email, username, age);
-            res.send({
-                message: "Mail enviado",
-                code: code,
-            });
+            const emailSend = await sendCode(email, username, age);
+            res.send({ message: "Mail enviado" });
     
         } catch (err) {
             res.status(402).send({ messageError: err });

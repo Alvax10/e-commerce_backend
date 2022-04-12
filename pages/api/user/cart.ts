@@ -34,8 +34,8 @@ async function deleteProductFromCartPost(req: NextApiRequest, res: NextApiRespon
 
 async function getCartPost(req: NextApiRequest, res: NextApiResponse, token) {
     try {
-        const productDeleted = await getUserCart(token.userId);
-        res.send(productDeleted);
+        const userCart = await getUserCart(token.userId);
+        res.send(userCart);
     
     } catch (err) {
         res.status(500).send({ error: err });

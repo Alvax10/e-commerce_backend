@@ -2,5 +2,3 @@
 .next
 node_modules
 .env.local
-data.json
-users.txt

@@ -69,5 +69,5 @@ export async function getUserCart(userId: string) {
     } catch (err) {
         return { "Error en el getUserCart del controller": err };
     }
-
 }
+

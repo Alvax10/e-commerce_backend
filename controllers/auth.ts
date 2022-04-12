@@ -1,6 +1,7 @@
 import { User } from "models/user";
 import { Auth } from "models/auth";
 import { addMinutes } from "date-fns";
+import { generate } from "controllers/jwt";
 import { sendCodeToEmail } from "lib/sendgrid";
 
 // ESTA FUNCIÓN CHEQUEA SI EL MAIL YA ESTÁ EN LA BD O NO
@@ -57,8 +58,6 @@ export async function sendCode(email: string, username: string, edad: number): P
         auth.data.expires = fifteenMinutes;
         await auth.pushData();
 
-        return code;
-
     } catch (err) {
         console.error("Este es el error en sendCode: ", err);
         throw err;
@@ -104,5 +103,37 @@ export async function updateCertainUserData(userId: string, newCertainData): Pro
     } catch (err) {
         console.log({ "Error en el controller updateCertainUserData": err });
         throw err;
+    }
+}
+
+
+export async function checkEmailAndCode(email: string, code: number) {
+    try {
+        const auth = await Auth.findByEmailAndCode(email, code);
+        if (!auth) {
+            throw { message: "Email or code incorrect" };
+        }
+        const expires = auth.isCodeexpired();
+        if (expires) {
+            throw { message: "Code expired" };
+            
+        } else {
+            const token = generate({ userId: auth.data.userId });
+            return { token };
+        }
+
+    } catch (err) {
+        throw { messageError: err };
+    }
+}
+
+export async function getUserData(userId: string) {
+    try {
+        const user = new User(userId);
+        await user.pullData();
+        return user.data;
+
+    } catch (err) {
+        throw { error: err };
     }
 }

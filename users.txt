@@ -1,0 +1,24 @@
+vendedor = {
+    "id": 1099758825,
+    "nickname": "TETE8244583",
+    "password": "qatest6773",
+    "site_status": "active",
+    "email": "test_user_68657008@testuser.com"
+}
+
+token vendedor = APP_USR-4291438375583316-040117-c0f9c8e690c52ff68f48757b69fbbd80-1099758825
+
+comprador = {
+    "id": 1099755332,
+    "nickname": "TETE5775555",
+    "password": "qatest4180",
+    "site_status": "active",
+    "email": "test_user_26911143@testuser.com"
+}
+
+TARJETA = {
+    Nombre: "Mastercard"
+    Número: 5031 7557 3453 0604
+    CódigoSeguridad: 123
+    Vencimiento: 11/25
+}
