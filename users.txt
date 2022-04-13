@@ -21,6 +21,7 @@ TARJETA = {
     Número: 5031 7557 3453 0604
     CódigoSeguridad: 123
     Vencimiento: 11/25
+    NombreDeLaTarjeta: "APRO" 
 }
 
 4530135987
