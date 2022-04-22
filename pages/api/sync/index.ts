@@ -29,7 +29,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-    await corsMiddleware(req, res, handler());
+    await corsMiddleware(req, res, handler);
 };
 
 export default corsHandler;

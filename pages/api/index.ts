@@ -6,7 +6,7 @@ const endpoint = function (req: NextApiRequest, res: NextApiResponse) {
 }
 
 const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-    await corsMiddleware(req, res, endpoint());
+    await corsMiddleware(req, res, endpoint);
 };
 
 export default corsHandler;
