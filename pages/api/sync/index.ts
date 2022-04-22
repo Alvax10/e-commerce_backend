@@ -1,9 +1,10 @@
 import { base } from "lib/airtable";
 import { productIndex } from "lib/algolia";
+import corsMiddleware from "middleWares/cors";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getOffsetAndLimitFromReq } from "controllers/request";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
     const  { limit, offset } = getOffsetAndLimitFromReq(req, 10, 10000);
     base('Furniture').select({
@@ -26,3 +27,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         res.send(true);
     });
 }
+
+const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+    await corsMiddleware(req, res, handler());
+};
+
+export default corsHandler;

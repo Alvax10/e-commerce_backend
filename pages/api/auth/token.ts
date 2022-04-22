@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import methods from "micro-method-router";
+import corsMiddleware from "middleWares/cors";
 import { checkBodySchema } from "middleWares/schema";
 import { checkEmailAndCode } from "controllers/auth";
 import { NextApiRequest, NextApiResponse} from "next";
@@ -24,4 +25,8 @@ const handler = methods({
     post: postHandler,
 });
 
-export default checkBodySchema(bodySchema, handler);
+const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+    await corsMiddleware(req, res, checkBodySchema(bodySchema, handler));
+};
+
+export default corsHandler;

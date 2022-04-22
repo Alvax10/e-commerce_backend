@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import methods from "micro-method-router";
+import corsMiddleware from "middleWares/cors";
 import { checkQuerySchema } from "middleWares/schema";
 import { NextApiRequest, NextApiResponse } from "next";
 import { authMiddleware } from "middleWares/authMiddleWare";
@@ -48,4 +49,8 @@ const handler = methods({
     delete: deleteProductFromCartPost,
 });
 
-export default checkQuerySchema(querySchema, authMiddleware(handler));
+const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+    await corsMiddleware(req, res, checkQuerySchema(querySchema, authMiddleware(handler)));
+};
+
+export default corsHandler;

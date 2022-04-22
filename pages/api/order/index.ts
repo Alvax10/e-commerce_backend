@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import method from "micro-method-router";
+import corsMiddleware from "middleWares/cors";
 import { createOrder } from "controllers/orders";
 import { NextApiRequest, NextApiResponse} from "next";
 import { authMiddleware } from "middleWares/authMiddleWare";
@@ -36,4 +37,8 @@ const handler = method({
 });
 
 // This middlewares check the token, the req.query and the req.body
-export default checkQuerySchema(querySchema, checkBodySchema(bodySchema, authMiddleware(handler)));
+const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+    await corsMiddleware(req, res, checkQuerySchema(querySchema, checkBodySchema(bodySchema, authMiddleware(handler))));
+};
+
+export default corsHandler;

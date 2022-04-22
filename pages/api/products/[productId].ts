@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import methods from "micro-method-router";
+import corsMiddleware from "middleWares/cors";
 import { getProductById } from "controllers/products";
 import { checkQuerySchema } from "middleWares/schema";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -25,4 +26,8 @@ const handler = methods({
     get: searchProducts
 });
 
-export default checkQuerySchema(querySchema, handler);
+const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+    await corsMiddleware(req, res, checkQuerySchema(querySchema, handler));
+};
+
+export default corsHandler;

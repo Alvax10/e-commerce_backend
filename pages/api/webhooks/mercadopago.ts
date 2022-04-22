@@ -1,4 +1,5 @@
 import methods from "micro-method-router";
+import corsMiddleware from "middleWares/cors";
 import { NextApiRequest, NextApiResponse} from "next";
 import { completePurchaseOrder } from "controllers/orders";
 
@@ -18,4 +19,8 @@ const handler = methods({
     post: postHandler,
 });
 
-export default handler;
+const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+    await corsMiddleware(req, res, handler);
+};
+
+export default corsHandler;
