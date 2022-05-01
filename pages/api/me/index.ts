@@ -16,8 +16,8 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse, token) {
 }
 
 async function patchHandler(req: NextApiRequest, res: NextApiResponse, token) {
-    
     const newUserData = req.body;
+    
     if (newUserData.email && newUserData.age && newUserData.username) {
         try {
             await updateUserAndAuth(token.userId, newUserData);

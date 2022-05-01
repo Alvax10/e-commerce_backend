@@ -42,7 +42,7 @@ export async function createOrder(userId: string, productId: string, additionalI
                 }
             ],
             "back_urls": {
-                "success": "http://www.hottoys.com.hk/",
+                "success": "https://dwf-m10.vercel.app/thankyou",
             },
             "external_reference": order.id,
             "notification_url": notificationUrl,

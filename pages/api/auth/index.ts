@@ -13,11 +13,16 @@ let bodySchema = yup.object().shape({
 
 async function createAuth(req: NextApiRequest, res: NextApiResponse) {
     const { email, username, age } = req.body;
-
+    
     if (email && username && age) {
         try {
             const emailSend = await sendCode(email, username, age);
-            res.send({ message: "Mail enviado" });
+            console.log("EMAIL ENVIADO:", emailSend);
+
+            res.send({
+                message: "Mail enviado",
+                emailSend,
+            });
     
         } catch (err) {
             res.status(402).send({ messageError: err });
@@ -33,7 +38,7 @@ const handler = methods({
 });
 
 const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-    await corsMiddleware(req, res, checkBodySchema(bodySchema, handler));
+    return await corsMiddleware(req, res, checkBodySchema(bodySchema, handler));
 };
 
 export default corsHandler;
