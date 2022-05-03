@@ -13,11 +13,15 @@ if (process.env.NODE_ENV == "development") {
 
 export async function createOrder(userId: string, productId: string, additionalInfo) {
     
+    console.log(3, userId, productId, additionalInfo);
+
     try {
         // BUSCAMOS EL PRODUCTO EN ALGOLIA, QUE ESTÁ SYNC CON AIRTABLE
         const product = await getProductById(productId);
 
-        if (!product) {
+        console.log(4, product);
+
+        if (product == {}) {
             throw "Producto no encontrado en createOrder";
         }
         // CREAMOS LA ORDEN
@@ -47,6 +51,9 @@ export async function createOrder(userId: string, productId: string, additionalI
             "external_reference": order.id,
             "notification_url": notificationUrl,
         });
+
+        console.log(5, preference);
+        console.log(6, { url: preference.init_point, orderId: order.id });
         // RETORNAMOS LA URL PARA PAGAR EL PRODUCTO
         return { url: preference.init_point, orderId: order.id };
 

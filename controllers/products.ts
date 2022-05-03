@@ -5,16 +5,22 @@ export async function getProductById(id: string) {
     const hit = await productIndex.findObject((hit => hit.objectID == id));
     const product = await hit.object;
 
-    return {
-            title: product["Name"],
-            color: product["Color"],
-            stock: product["In stock"],
-            image: product["Images"],
-            description: product["Description"],
-            price: product["unit_price"],
-            id: product.objectID,
-            type: product["Type"],
-        };
+    if (product) {
+
+        return {
+                title: product["Name"],
+                color: product["Color"],
+                stock: product["In stock"],
+                image: product["Images"],
+                description: product["Description"],
+                price: product["unit_price"],
+                id: product.objectID,
+                type: product["Type"],
+            };
+
+    } else {
+        return {};
+    }
 }
 
 export async function searchProductsController(search: string, limit: number, offset: number) {

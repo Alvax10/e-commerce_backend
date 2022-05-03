@@ -42,14 +42,13 @@ export async function sendProductBoughtEmail(email: string, productData) {
         to: email,
         from: "alvaro695547@gmail.com",
         subject: `Compraste ${productData.title}!`,
-        text: `La compra ${productData.title} de ${productData.unit_price} fue exitosa, esperamos que la disfrutes!`,
+        text: `La compra de ${productData.title} por: ${productData.unit_price} fue exitosa, esperamos que la disfrutes!`,
         html: `<div class="general-container">
             <div class="header">
                 <img src="" />
             </div>
             <div class="body">
-                <h1 class="Title"> Te has registrado! 😊 </h1>
-                <h3> Este es tu código para loguearte: </h3>
+            La compra de ${productData.title} por: ${productData.unit_price} fue exitosa, esperamos que la disfrutes!
             </div>
         </div>`,
     }

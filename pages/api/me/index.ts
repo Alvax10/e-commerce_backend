@@ -6,13 +6,21 @@ import { NextApiRequest, NextApiResponse} from "next";
 import { authMiddleware } from "middleWares/authMiddleWare";
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse, token) {
-    try {
-        const response = await getUserData(token.userId);
-        res.send(response);
 
-    } catch (err) {
-        res.status(405).send({ error: err });
+    if (token) {
+        
+        try {
+            const response = await getUserData(token.userId);
+            res.send(response);
+    
+        } catch (err) {
+            res.status(405).send({ error: err });
+        }
+
+    } else {
+        res.status(405).json({ error: "No hay token" });
     }
+
 }
 
 async function patchHandler(req: NextApiRequest, res: NextApiResponse, token) {

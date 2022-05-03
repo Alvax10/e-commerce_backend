@@ -21,8 +21,12 @@ let bodySchema = yup.object().shape({
 async function postHandler(req: NextApiRequest, res: NextApiResponse, token) {
     const { productId } = req.query as any;
     
+    console.log(1, productId);
+    console.log(2, req.body);
+
     try {
         const { url, orderId } = await createOrder(token.userId, productId, req.body);
+        console.log(7, url, orderId);
         res.send({ url, orderId });
 
     } catch (err) {
